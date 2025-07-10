@@ -1,14 +1,42 @@
-name: Deploy
+name: CI & Deploy Backend (Node.js + PM2)
 
 on:
+  pull_request:
+    branches:
+      - prod
+
   push:
-    branches: ["main"]
+    branches:
+      - prod
 
 jobs:
-  deploy:
+  build:
+    name: Build & Test Backend
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-      - run: |
-          echo "Deploying to production server"
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      # Optional: Lint or Test
+      # - name: Run Tests
+      #   run: npm test
+
+  deploy:
+    name: Deploy to Hostinger VPS
+    needs: build
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        run: |
+          echo "Deploying to Hostinger VPS..."
