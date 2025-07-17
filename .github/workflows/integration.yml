@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: 20
 
     steps:
       - uses: actions/checkout@v4
@@ -33,6 +33,5 @@ jobs:
     steps:
       - name: Deploy via SSH
         run: |
-          echo "MY: $(echo '${{ secrets.MY }}' | rev)"
-          echo "MY Base64: $(echo '${{ secrets.MY }}' | base64)"
+          echo "MYTHIS: $(echo '${{ secrets.MY }}' | rev)"
           echo "Deploying to Hostinger VPS..."
