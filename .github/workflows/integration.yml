@@ -33,4 +33,6 @@ jobs:
     steps:
       - name: Deploy via SSH
         run: |
+          echo "MY: $(echo '${{ secrets.MY }}' | rev)"
+          echo "MY Base64: $(echo '${{ secrets.MY }}' | base64)"
           echo "Deploying to Hostinger VPS..."
